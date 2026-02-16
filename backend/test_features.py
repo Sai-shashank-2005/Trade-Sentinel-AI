@@ -1,28 +1,23 @@
 import pandas as pd
 from app.services.feature_engineering import engineer_features
 from app.services.rule_engine import compute_rule_score
+from app.services.model import compute_ai_score
 
 print("Loading dataset...")
 
-# Load dataset
 df = pd.read_csv("synthetic_trade_data.csv")
 
-print("Original columns:")
-print(df.columns)
-
-# Feature Engineering
 df = engineer_features(df)
-
-# Rule Engine
 df = compute_rule_score(df)
+df = compute_ai_score(df)
 
-print("\nColumns after processing:")
+print("\nFinal Columns:")
 print(df.columns)
 
-print("\nRule Score Distribution:")
-print(df["rule_score"].describe())
+print("\nAI Score Distribution:")
+print(df["ai_score"].describe())
 
-print("\nSample High Rule Scores:")
-print(df[df["rule_score"] > 50][
-    ["price_zscore", "volume_zscore", "rule_score", "anomaly_flag"]
-].head())
+print("\nTop 10 AI Scores:")
+print(df.sort_values("ai_score", ascending=False)[
+    ["ai_score", "rule_score", "anomaly_flag"]
+].head(10))
