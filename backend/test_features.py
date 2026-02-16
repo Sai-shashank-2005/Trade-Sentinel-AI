@@ -1,8 +1,11 @@
 import pandas as pd
+
 from app.services.feature_engineering import engineer_features
 from app.services.rule_engine import compute_rule_score
 from app.services.model import compute_ai_score
 from app.services.scoring import compute_hybrid_risk
+from app.services.context_layer import compute_context_adjusted_risk
+from app.services.context_layer import compute_confidence_score
 
 print("Loading dataset...")
 
@@ -21,13 +24,19 @@ df = compute_ai_score(df)
 # 5️⃣ Hybrid Risk
 df = compute_hybrid_risk(df)
 
+# 6️⃣ Context Adjustment
+df = compute_context_adjusted_risk(df)
+
+# 7️⃣ Confidence Score
+df = compute_confidence_score(df)
+
 print("\nFinal Columns:")
 print(df.columns)
 
-print("\nHybrid Risk Distribution:")
-print(df["raw_risk"].describe())
+print("\nFinal Risk Distribution:")
+print(df["final_risk"].describe())
 
-print("\nTop 10 Hybrid Risks:")
-print(df.sort_values("raw_risk", ascending=False)[
-    ["raw_risk", "ai_score", "rule_score", "anomaly_flag"]
+print("\nTop 10 Final Risks:")
+print(df.sort_values("final_risk", ascending=False)[
+    ["final_risk", "raw_risk", "confidence_score", "anomaly_flag"]
 ].head(10))
