@@ -14,7 +14,9 @@ def compute_context_adjusted_risk(df):
     peer_mean_risk = df.groupby("hs_code")["raw_risk"].transform("mean")
 
     # If many peers are risky, reduce impact
-    peer_adjustment_factor = 1 - (peer_mean_risk / 200)
+    peer_adjustment_factor = 1 - np.minimum(peer_mean_risk / 200, 0.3)
+
+
 
     df["final_risk"] = df["final_risk"] * peer_adjustment_factor
 

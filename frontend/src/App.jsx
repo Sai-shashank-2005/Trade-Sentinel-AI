@@ -1,13 +1,17 @@
-function App() {
-  return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
-      <div className="bg-red-500 p-10 rounded-xl shadow-2xl">
-        <h1 className="text-5xl font-bold text-white">
-          Tailwind Working 🚀
-        </h1>
-      </div>
-    </div>
-  )
-}
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import MainLayout from "./layout/MainLayout";
+import Dashboard from "./pages/Dashboard";
+import Transactions from "./pages/Transactions";
 
-export default App
+export default function App() {
+  return (
+    <Router>
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/transactions" element={<Transactions />} />
+        </Routes>
+      </MainLayout>
+    </Router>
+  );
+}
