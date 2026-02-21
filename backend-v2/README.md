@@ -1,4 +1,4 @@
-# 🚀 Trade Sentinel AI – Backend
+# Trade Sentinel AI – Backend
 
 AI-powered Trade Risk Intelligence API built with FastAPI.
 
